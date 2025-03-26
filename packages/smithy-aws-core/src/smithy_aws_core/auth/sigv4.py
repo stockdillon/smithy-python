@@ -1,7 +1,7 @@
 #  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #  SPDX-License-Identifier: Apache-2.0
 import re
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Protocol, Self
 
 from aws_sdk_signers import AsyncEventSigner, AsyncSigV4Signer, SigV4SigningProperties
 from smithy_core.aio.interfaces.auth import AuthScheme, EventSigner, Signer
@@ -117,3 +117,7 @@ class SigV4AuthScheme(
             initial_signature=signature.encode("utf-8"),
             event_encoder_cls=EventHeaderEncoder,
         )
+
+    @classmethod
+    def from_trait(cls, trait: SigV4Trait, /) -> Self:
+        return cls(service=trait.name)
