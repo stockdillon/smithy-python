@@ -803,27 +803,25 @@ class AsyncEventSigner:
     def __init__(
         self,
         *,
-        properties: SigV4SigningProperties,
-        identity: _AWSCredentialsIdentity,
         initial_signature: bytes,
         event_encoder_cls: type["EventHeaderEncoder"],
     ):
         self._prior_signature = initial_signature
         self._signing_lock = asyncio.Lock()
         self._event_encoder_cls = event_encoder_cls
-        self._properties = properties
-        self._identity = identity
 
     async def sign(
         self,
         *,
         event: "EventMessage",
+        identity: _AWSCredentialsIdentity,
+        properties: SigV4SigningProperties,
     ) -> "EventMessage":
         async with self._signing_lock:
             # Copy and prepopulate any missing values in the
             # signing properties.
             new_signing_properties = SigV4SigningProperties(  # type: ignore
-                **self._properties
+                **properties
             )
             # TODO: If date is in properties, parse a datetime from it.
             date_obj = datetime.datetime.now(datetime.UTC)
@@ -848,7 +846,7 @@ class AsyncEventSigner:
                 prior_signature=self._prior_signature,
             )
             event_signature = await self._sign_event(
-                identity=self._identity,
+                identity=identity,
                 timestamp=timestamp,
                 string_to_sign=string_to_sign,
                 properties=new_signing_properties,
