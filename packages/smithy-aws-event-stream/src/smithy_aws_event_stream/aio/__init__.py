@@ -3,10 +3,13 @@
 import asyncio
 import logging
 from collections.abc import Callable
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from smithy_core.aio.interfaces import AsyncByteStream, AsyncWriter
 from smithy_core.aio.interfaces.auth import EventSigner
 from smithy_core.aio.interfaces.eventstream import EventPublisher, EventReceiver
+from smithy_core.aio.interfaces.identity import IdentityResolver
 from smithy_core.codecs import Codec
 from smithy_core.deserializers import DeserializeableShape, ShapeDeserializer
 from smithy_core.exceptions import ExpectationNotMetException
@@ -20,16 +23,29 @@ from ..exceptions import EventError
 logger = logging.getLogger(__name__)
 
 
+if TYPE_CHECKING:
+    from aws_sdk_signers import SigV4SigningProperties
+    from smithy_aws_core.identity import AWSCredentialsIdentity, AWSIdentityProperties
+
+
+@dataclass
+class SigningConfig:
+    signer: "EventSigner[AWSCredentialsIdentity, SigV4SigningProperties]"
+    signing_properties: "SigV4SigningProperties"
+    identity_resolver: "IdentityResolver[AWSCredentialsIdentity, AWSIdentityProperties]"
+    identity_properties: "AWSIdentityProperties"
+
+
 class AWSEventPublisher[E: SerializeableShape](EventPublisher[E]):
     def __init__(
         self,
         payload_codec: Codec,
         async_writer: AsyncWriter,
-        signer: EventSigner | None = None,
+        signing_config: SigningConfig | None = None,
         is_client_mode: bool = True,
     ):
         self._writer = async_writer
-        self._signer = signer
+        self._signing_config = signing_config
         self._serializer = _EventSerializer(
             payload_codec=payload_codec, is_client_mode=is_client_mode
         )
@@ -45,8 +61,16 @@ class AWSEventPublisher[E: SerializeableShape](EventPublisher[E]):
             raise ExpectationNotMetException(
                 "Expected an event message to be serialized, but was None."
             )
-        if self._signer is not None:
-            result = await self._signer.sign(event=result)
+
+        if self._signing_config is not None:
+            identity = await self._signing_config.identity_resolver.get_identity(
+                properties=self._signing_config.identity_properties
+            )
+            result = await self._signing_config.signer.sign(
+                event=event,
+                identity=identity,
+                properties=self._signing_config.signing_properties,
+            )
 
         encoded_result = result.encode()
         try:

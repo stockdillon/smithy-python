@@ -100,11 +100,8 @@ class SigV4AuthScheme(
         return self._signer
 
     def event_signer(
-        self,
-        request: HTTPRequest,
-        identity: AWSCredentialsIdentity,
-        properties: SigV4SigningProperties,
-    ) -> EventSigner | None:
+        self, request: HTTPRequest
+    ) -> EventSigner[AWSCredentialsIdentity, SigV4SigningProperties] | None:
         if not HAS_EVENT_STREAM:
             return None
 
@@ -112,8 +109,6 @@ class SigV4AuthScheme(
         signature: str = re.split("Signature=", auth_value)[-1]
 
         return AsyncEventSigner(
-            identity=identity,
-            properties=properties,
             initial_signature=signature.encode("utf-8"),
             event_encoder_cls=EventHeaderEncoder,
         )

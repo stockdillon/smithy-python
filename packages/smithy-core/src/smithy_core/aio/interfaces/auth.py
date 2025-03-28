@@ -4,6 +4,7 @@ from collections.abc import Mapping
 from typing import Any, Protocol
 
 from ...interfaces import TypedProperties as _TypedProperties
+from ...interfaces.identity import Identity
 from ...shapes import ShapeID
 from . import Request
 from .identity import IdentityResolver
@@ -22,11 +23,11 @@ class Signer[R: Request, I, SP: Mapping[str, Any]](Protocol):
         ...
 
 
-class EventSigner(Protocol):
+class EventSigner[I, SP: Mapping[str, Any]](Protocol):
     """A class that signs requests before they are sent."""
 
     # TODO: add a protocol type for events
-    async def sign(self, *, event: Any) -> Any:
+    async def sign(self, *, event: Any, identity: I, properties: SP) -> Any:
         """Get a signed version of the event.
 
         :param event: The event to be signed.
@@ -34,7 +35,9 @@ class EventSigner(Protocol):
         ...
 
 
-class AuthScheme[R: Request, I, IP: Mapping[str, Any], SP: Mapping[str, Any]](Protocol):
+class AuthScheme[R: Request, I: Identity, IP: Mapping[str, Any], SP: Mapping[str, Any]](
+    Protocol
+):
     """A class that coordinates identity and auth."""
 
     scheme_id: ShapeID
@@ -74,15 +77,11 @@ class AuthScheme[R: Request, I, IP: Mapping[str, Any], SP: Mapping[str, Any]](Pr
         """Get a signer for the request."""
         ...
 
-    def event_signer(
-        self, request: R, identity: I, properties: SP
-    ) -> EventSigner | None:
+    def event_signer(self, request: R) -> EventSigner[I, SP] | None:
         """Construct a signer for event stream events.
 
         :param request: The request that will initiate the event stream. The request
             will not have been sent when this method is called.
-        :param identity: The identity to use to sign events.
-        :param properties: Additional properties used to sign events.
         :returns: An event signer if the scheme supports signing events, otherwise None.
         """
         return None
