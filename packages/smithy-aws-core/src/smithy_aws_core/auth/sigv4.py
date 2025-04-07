@@ -19,10 +19,10 @@ from ..identity import (
 from ..traits import SigV4Trait
 
 if TYPE_CHECKING:
-    from aws_event_stream.events import EventHeaderEncoder
+    from smithy_aws_event_stream.events import EventHeaderEncoder
 
 try:
-    from aws_event_stream.events import EventHeaderEncoder
+    from smithy_aws_event_stream.events import EventHeaderEncoder
 
     HAS_EVENT_STREAM = True
 except ImportError:
@@ -68,7 +68,9 @@ class SigV4AuthScheme(
         self._signer = signer or AsyncSigV4Signer()  # type: ignore
         self._service = service
 
-    def identity_properties(self, context: _TypedProperties) -> AWSIdentityProperties:
+    def identity_properties(
+        self, *, context: _TypedProperties
+    ) -> AWSIdentityProperties:
         config = context[AWS_IDENTITY_CONFIG]
         return {
             "access_key_id": config.access_key_id,
@@ -76,7 +78,7 @@ class SigV4AuthScheme(
             "session_token": config.session_token,
         }
 
-    def identity_resolver(self, context: _TypedProperties) -> AWSCredentialsResolver:
+    def identity_resolver(self, *, context: _TypedProperties) -> AWSCredentialsResolver:
         config = context.get(SIGV4_CONFIG)
         if config is None or config.aws_credentials_identity_resolver is None:
             raise SmithyIdentityException(
@@ -85,7 +87,7 @@ class SigV4AuthScheme(
             )
         return config.aws_credentials_identity_resolver
 
-    def signer_properties(self, context: _TypedProperties) -> SigV4SigningProperties:
+    def signer_properties(self, *, context: _TypedProperties) -> SigV4SigningProperties:
         config = context.get(SIGV4_CONFIG)
         if config is None or config.region is None:
             raise SmithyIdentityException(
@@ -100,7 +102,7 @@ class SigV4AuthScheme(
         return self._signer
 
     def event_signer(
-        self, request: HTTPRequest
+        self, *, request: HTTPRequest
     ) -> EventSigner[AWSCredentialsIdentity, SigV4SigningProperties] | None:
         if not HAS_EVENT_STREAM:
             return None

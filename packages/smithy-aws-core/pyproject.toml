@@ -16,7 +16,7 @@ build-backend = "hatchling.build"
 
 [project.optional-dependencies]
 eventstream = [
-    "aws-event-stream"
+    "smithy-aws-event-stream"
 ]
 
 [tool.hatch.build]

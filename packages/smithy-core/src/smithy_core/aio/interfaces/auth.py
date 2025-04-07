@@ -43,7 +43,7 @@ class AuthScheme[R: Request, I: Identity, IP: Mapping[str, Any], SP: Mapping[str
     scheme_id: ShapeID
     """The ID of the auth scheme."""
 
-    def identity_properties(self, context: _TypedProperties) -> IP:
+    def identity_properties(self, *, context: _TypedProperties) -> IP:
         """Construct identity properties from the request context.
 
         The context will always include the client's config under "config". Other
@@ -53,7 +53,9 @@ class AuthScheme[R: Request, I: Identity, IP: Mapping[str, Any], SP: Mapping[str
         """
         ...
 
-    def identity_resolver(self, context: _TypedProperties) -> IdentityResolver[I, IP]:
+    def identity_resolver(
+        self, *, context: _TypedProperties
+    ) -> IdentityResolver[I, IP]:
         """Get an identity resolver for the request.
 
         The context will always include the client's config under "config". Other
@@ -63,7 +65,7 @@ class AuthScheme[R: Request, I: Identity, IP: Mapping[str, Any], SP: Mapping[str
         """
         ...
 
-    def signer_properties(self, context: _TypedProperties) -> SP:
+    def signer_properties(self, *, context: _TypedProperties) -> SP:
         """Construct signer properties from the request context.
 
         The context will always include the client's config under "config". Other
@@ -77,7 +79,7 @@ class AuthScheme[R: Request, I: Identity, IP: Mapping[str, Any], SP: Mapping[str
         """Get a signer for the request."""
         ...
 
-    def event_signer(self, request: R) -> EventSigner[I, SP] | None:
+    def event_signer(self, *, request: R) -> EventSigner[I, SP] | None:
         """Construct a signer for event stream events.
 
         :param request: The request that will initiate the event stream. The request

@@ -93,7 +93,7 @@ class APIKeyAuthScheme(
         self._signer = APIKeySigner(name=name, location=location, scheme=scheme)
 
     def identity_properties(
-        self, context: _TypedProperties
+        self, *, context: _TypedProperties
     ) -> APIKeyIdentityProperties:
         config = context.get(API_KEY_RESOLVER_CONFIG)
         if config is not None and config.api_key is not None:
@@ -101,7 +101,7 @@ class APIKeyAuthScheme(
         return {}
 
     def identity_resolver(
-        self, context: _TypedProperties
+        self, *, context: _TypedProperties
     ) -> IdentityResolver[APIKeyIdentity, APIKeyIdentityProperties]:
         config = context.get(API_KEY_RESOLVER_CONFIG)
         if config is None or config.api_key_identity_resolver is None:
@@ -111,7 +111,7 @@ class APIKeyAuthScheme(
             )
         return config.api_key_identity_resolver
 
-    def signer_properties(self, context: _TypedProperties) -> Any:
+    def signer_properties(self, *, context: _TypedProperties) -> Any:
         return {}
 
     def signer(self) -> Signer[HTTPRequest, APIKeyIdentity, Any]:
