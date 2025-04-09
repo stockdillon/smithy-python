@@ -187,9 +187,7 @@ class EventMessage:
       message.
     """
 
-    # Pyright is complaining about the return type of the default_factory here being
-    # unknown. See https://github.com/microsoft/pyright/issues/10277
-    headers: HEADERS_DICT = field(default_factory=dict)  # pyright: ignore [reportUnknownVariableType]
+    headers: HEADERS_DICT = field(default_factory=dict[str, HEADER_VALUE])
     """The headers present in the event message.
 
     Sized integer values may be indicated for the purpose of serialization
