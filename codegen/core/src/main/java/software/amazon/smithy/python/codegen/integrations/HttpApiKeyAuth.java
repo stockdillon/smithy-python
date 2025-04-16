@@ -85,13 +85,13 @@ public final class HttpApiKeyAuth implements PythonIntegration {
         context.writerDelegator().useFileWriter(resolver.getDefinitionFile(), resolver.getNamespace(), writer -> {
             writer.addDependency(SmithyPythonDependency.SMITHY_CORE);
             writer.addDependency(SmithyPythonDependency.SMITHY_HTTP);
-            writer.addImport("smithy_core.interfaces.auth", "AuthOption", "_AuthOption");
+            writer.addImport("smithy_core.interfaces.auth", "AuthOption", "AuthOptionProtocol");
             writer.addImports("smithy_core.auth", Set.of("AuthOption", "AuthParams"));
             writer.addImport("smithy_core.shapes", "ShapeID");
             writer.addStdlibImport("typing", "Any");
             writer.pushState();
             writer.write("""
-                    def $1L(auth_params: AuthParams[Any, Any]) -> _AuthOption | None:
+                    def $1L(auth_params: AuthParams[Any, Any]) -> AuthOptionProtocol | None:
                         return AuthOption(
                             scheme_id=ShapeID($2S),
                             identity_properties={},  # type: ignore

@@ -71,12 +71,12 @@ final class HttpAuthGenerator implements Runnable {
         writer.pushState(new GenerateHttpAuthSchemeResolverSection(resolvedAuthSchemes));
         writer.addDependency(SmithyPythonDependency.SMITHY_CORE);
         writer.addDependency(SmithyPythonDependency.SMITHY_HTTP);
-        writer.addImport("smithy_core.interfaces.auth", "AuthOption", "_AuthOption");
+        writer.addImport("smithy_core.interfaces.auth", "AuthOption", "AuthOptionProtocol");
         writer.addImport("smithy_core.auth", "AuthParams");
         writer.addStdlibImport("typing", "Any");
         writer.write("""
                 class $1L:
-                    def resolve_auth_scheme(self, auth_parameters: AuthParams[Any, Any]) -> list[_AuthOption]:
+                    def resolve_auth_scheme(self, auth_parameters: AuthParams[Any, Any]) -> list[AuthOptionProtocol]:
                         auth_options: list[_AuthOption] = []
 
                         ${2C|}
