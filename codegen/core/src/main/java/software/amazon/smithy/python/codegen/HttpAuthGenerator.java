@@ -77,7 +77,7 @@ final class HttpAuthGenerator implements Runnable {
         writer.write("""
                 class $1L:
                     def resolve_auth_scheme(self, auth_parameters: AuthParams[Any, Any]) -> list[AuthOptionProtocol]:
-                        auth_options: list[_AuthOption] = []
+                        auth_options: list[AuthOptionProtocol] = []
 
                         ${2C|}
                         ${3C|}
