@@ -1,0 +1,85 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "software.amazon.smithy.python.codegen.plugins",
+    "module": "types",
+    "version": "0.0.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.13"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "software.amazon.smithy.python.codegen",
+          "module": "core",
+          "version": {
+            "requires": "0.0.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "types-0.0.1.jar",
+          "url": "types-0.0.1.jar",
+          "size": 15814,
+          "sha512": "39f7d21248d8e7bb621a4df31ee047a4d7e708f1f15b5f40dd184cd8f50614c0a96cc6958fd2ab4c06c86452d65456af94b9bd167a93484d54340289079c7d55",
+          "sha256": "05bb0c1d3fd6e7355226c0ba257c3e0eed0385f8d2724106d6806a9f067c92f5",
+          "sha1": "f586bae095486d888704db4bbf04bfb5db14525d",
+          "md5": "147b3f1db02e83c10934614eb7df7806"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "software.amazon.smithy",
+          "module": "smithy-codegen-core",
+          "version": {
+            "requires": "1.56.0"
+          }
+        },
+        {
+          "group": "software.amazon.smithy.python.codegen",
+          "module": "core",
+          "version": {
+            "requires": "0.0.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "types-0.0.1.jar",
+          "url": "types-0.0.1.jar",
+          "size": 15814,
+          "sha512": "39f7d21248d8e7bb621a4df31ee047a4d7e708f1f15b5f40dd184cd8f50614c0a96cc6958fd2ab4c06c86452d65456af94b9bd167a93484d54340289079c7d55",
+          "sha256": "05bb0c1d3fd6e7355226c0ba257c3e0eed0385f8d2724106d6806a9f067c92f5",
+          "sha1": "f586bae095486d888704db4bbf04bfb5db14525d",
+          "md5": "147b3f1db02e83c10934614eb7df7806"
+        }
+      ]
+    }
+  ]
+}

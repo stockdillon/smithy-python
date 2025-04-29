@@ -1,0 +1,113 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "software.amazon.smithy.python.codegen",
+    "module": "core",
+    "version": "0.0.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.13"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "software.amazon.smithy",
+          "module": "smithy-codegen-core",
+          "version": {
+            "requires": "1.56.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-0.0.1.jar",
+          "url": "core-0.0.1.jar",
+          "size": 263504,
+          "sha512": "c3e7d7afa2c0234c03313c601b336dfd8eb38ffd09a8d551f3b69e146d1b0a1c40d81af16c8d56ff67dd4d78cbfe985a6cd07a2791fe397075e6dfd7bf4c7efc",
+          "sha256": "5c57cc1bc00a567faf765c9574a2afb2987742362d370d09147397313b3af380",
+          "sha1": "2f4b58ca46705beba3b03f9bfcf045976b23a3b0",
+          "md5": "afd2f7dc7e988974399b9f44d3101de2"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "software.amazon.smithy",
+          "module": "smithy-waiters",
+          "version": {
+            "requires": "1.56.0"
+          }
+        },
+        {
+          "group": "software.amazon.smithy",
+          "module": "smithy-protocol-test-traits",
+          "version": {
+            "requires": "1.56.0"
+          }
+        },
+        {
+          "group": "software.amazon.smithy",
+          "module": "smithy-aws-traits",
+          "version": {
+            "requires": "1.56.0"
+          }
+        },
+        {
+          "group": "org.jsoup",
+          "module": "jsoup",
+          "version": {
+            "requires": "1.19.1"
+          }
+        },
+        {
+          "group": "com.atlassian.commonmark",
+          "module": "commonmark",
+          "version": {
+            "requires": "0.17.0"
+          }
+        },
+        {
+          "group": "software.amazon.smithy",
+          "module": "smithy-codegen-core",
+          "version": {
+            "requires": "1.56.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-0.0.1.jar",
+          "url": "core-0.0.1.jar",
+          "size": 263504,
+          "sha512": "c3e7d7afa2c0234c03313c601b336dfd8eb38ffd09a8d551f3b69e146d1b0a1c40d81af16c8d56ff67dd4d78cbfe985a6cd07a2791fe397075e6dfd7bf4c7efc",
+          "sha256": "5c57cc1bc00a567faf765c9574a2afb2987742362d370d09147397313b3af380",
+          "sha1": "2f4b58ca46705beba3b03f9bfcf045976b23a3b0",
+          "md5": "afd2f7dc7e988974399b9f44d3101de2"
+        }
+      ]
+    }
+  ]
+}
